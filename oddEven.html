@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oddEven.html</title>
+    <script src="./jquery.js"></script>
+    <style>
+        button.try{
+            display: none;
+        }
+        button.try.show{
+            display: inline;
+        }
+        h3{
+            color: #000;
+        }
+        h3.remove{
+            color:transparent;
+        }
+    </style>
+</head>
+<body>
+    <h1>홀수 짝수 맞추기 게임</h1>
+    <button>홀수</button>
+    <button>짝수</button>
+    <h3>메세지</h3>
+    <button class="try">재도전</button>
+    <script>
+        let num = parseInt(Math.random()*10)+1;
+        let oddEven = '';
+
+        const getNum = function(randomNum){
+            console.log(num);
+            if(randomNum %2 === 0){
+                oddEven = '짝수';
+            }else{
+                oddEven = '홀수';
+            }
+        }
+
+        getNum(num);
+
+        $('button').click(function(){
+            if(!$(this).hasClass('try')){
+                $('button').attr('disabled',true);
+            }
+            let now = $(this).text();
+            $('h3').removeClass('remove')
+            if(oddEven===now){
+                $('h3').text('정답입니다!');
+                $('button.try').removeClass('show');
+            }else{
+                $('h3').text('오답입니다!');
+                $('button.try').addClass('show');
+                $('button.try').attr('disabled', false);
+            }
+            
+        })
+
+        $('button.try').click(function(){
+            $('button.try').attr('disabled', false);
+            $(this).removeClass('show');
+            let num = parseInt(Math.random()*10)+1;
+            getNum(num);
+            // try 버튼을 클릭했을때, h3에시지가 지워지도록 class추가 혹은 삭제
+            $('h3').addClass('remove');
+        })
+        // 1.버튼 두개 홀짝 선택
+        // 2.랜덤 숫자 생성
+        // 3.랜덤이 홀수인지 짝수인지
+        // 4.비교
+        // 5.결과 출력
+        // 6.재도전 버튼 발생 
+        
+    </script>
+</body>
+</html>
