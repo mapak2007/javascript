@@ -8,20 +8,31 @@
 </head>
 <body>
     <!-- dom 탐색은 반드시 $ -->
-    <button>버튼1</button>
-    <button>버튼2</button>
+    <button class="btn1">버튼1</button>
+    <button class="btn2">버튼2</button>
     <script>
+        //버튼을 클릭했을때 이름을 입력받고 이름 환영합니다 출력하도록 만들기
+        //DOM탐색 : html에서 필요한 부분중 움직여야 하는 부분 탐색
+        let btn1 = $("button.btn1");
+        btn1.click(function(){
+            let name = prompt('이름을 입력하세요');
+            if (name) {
+                console.log(`${name}`);
+        }
+    });
+
+        let btn2 = $("button.btn2");
+        btn2.click(function(){
+            let num = prompt('숫자를 입력하세요');
+            if (num) {
+                console.log(`${num}`);
+        }
+    });
         // let btn = $(`button.btn1`);
         // bth.click(function(){
         //     console$((this).index());
         // });
         // console.log(btn)
-        //버튼을 클릭했을때 이름을 입력받고 이름 환영합니다 출력하도록 만들기
-        let btn = $(`button htn1`);
-        btn.click(function(){
-            prompt('이름을 입력하세요');
-            console.log($(this).index());
-        })
     </script>
 </body>
 </html>
