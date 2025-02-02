@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./jquery.js"></script>
+</head>
+<body>
+    <!-- dom 탐색은 반드시 $ -->
+    <button>버튼1</button>
+    <button>버튼2</button>
+    <script>
+        // let btn = $(`button.btn1`);
+        // bth.click(function(){
+        //     console$((this).index());
+        // });
+        // console.log(btn)
+        //버튼을 클릭했을때 이름을 입력받고 이름 환영합니다 출력하도록 만들기
+        let btn = $(`button htn1`);
+        btn.click(function(){
+            prompt('이름을 입력하세요');
+            console.log($(this).index());
+        })
+    </script>
+</body>
+</html>
