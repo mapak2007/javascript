@@ -106,14 +106,19 @@
     <script>
         const btnAdd = $('.add-btn');
         const todoList = $('.todo-list');
+        const del = $('.delete-btn');
 
         btnAdd.click(function(){
-            let todoItem = $('.todo-item').first().clone();
+            let todoItem = $('.todo-item').first().clone(true);
             let val = $('input').val();
             //input에 입력받은 값을 세팅해서 추가되도록 만들어보세요!
             // <span class="todo-text">예제 할 일 1</span>
             todoItem.children('.todo-text').text(val);
             todoList.prepend(todoItem);
+        })
+
+        del.click(function(){
+            $(this).parent().remove();
         })
     </script>
 </body>

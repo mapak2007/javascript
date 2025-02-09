@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>thumbnail.html</title>
+    <style>
+        div.wrap{
+            width: 0 auto;
+        }
+        div.mainImg{
+            width: 100%;
+            height: 500px;
+            background-color: #ccc;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        ul{
+            display: flex;
+            
+            list-style: none;
+            justify-content: space-between;
+            padding:0;
+        }
+        li{
+            width: calc(100% / 5 - 10px);
+            height: 100px;
+            background-color: #fc0;
+            cursor:pointer;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+        li.i1{
+            background-image: url('./image/slide1.jpg');
+        }
+        li.i2{
+            background-image: url('./image/slide2.jpg');
+        }
+        li.i3{
+            background-image: url('./image/slide3.jpg');
+        }
+        li.i4{
+            background-image: url('./image/slide4.jpg');
+        }
+        li.i5{
+            background-image: url('./image/slide5.jpg');
+        }
+    </style>
+    <script src="jquery.js"></script>
+</head>
+<body>
+    <div class="wrap">
+        <div class="mainImg"></div>
+        <ul>
+            <li class="i1"></li>
+            <li class="i2"></li>
+            <li class="i3"></li>
+            <li class="i4"></li>
+            <li class="i5"></li>
+        </ul>
+    </div>
+    <script>
+        let li = $('li');
+        let mainImg = $('.mainImg');
+        li.click(function(){
+            let img = $(this).css('background-image');
+            mainImg.css('background-image', img);
+            $(this).css('border', '3px solid #aqua')
+        })
+
+        //문제 1 li중 첫번째 이미지를
+        //mainImg에 background-image로 세팅해보세요!
+        let img = li.eq(0).css('background-image');
+        mainImg.css('background-image', img);
+        li.eq(0).css('border', '3px solid #fc0');
+        //mainImg=li.eq(1).css('https://reimagined-space-trout-gg4xr767j9jfwxgx-5502.app.github.dev/image/slide1.jpg');
+        // console.log(li.eq(0).css('background-image'));
+    </script>
+</body>
+</html>
