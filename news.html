@@ -161,37 +161,75 @@
             // articleClone.children('p').text(e.detail);
             // articleClone.children('src img').text(e.img);
         })
+
+        art.remove();
+        //무한루프 세팅
+        //클론 아티클 재탐색
+        art = $('article');
+        //console.log(art.last());
+        card.prepend(art.last());
+        card.css('marginLeft', '-100%');
+
+
         //재탐색
         like = $('.like');
 
-        art.remove();
+        //art.remove();
         card.css('width',`${news.length * 100}%`);
         pg.children('span').last().text(news.length);
 
-        function slide(left){
-            if(left){
-                if(ind>0){
-                    ind--;
-                }
-            }else{
-                if(ind<news.length - 1){
-                    ind++;
-                }
-            }
-            card.stop().animate({marginLeft : `${ind * -100}%`}, 500);
-            pg.children('span').first().text(ind+1);
-        }
+        // function slide(left){
+        //     if(left){
+        //         if(ind>0){
+        //             ind--;
+        //         }
+        //     }else{
+        //         if(ind<news.length - 1){
+        //             ind++;
+        //         }
+        //     }
+        //     card.stop().animate({marginLeft : `${ind * -100}%`}, 500);
+        //     pg.children('span').first().text(ind+1);
+        // }
 
         btns.click(function(){
             let left = $(this).hasClass('prev');
-            slide(left);
+            let num = 1;
+            art = $('article');
+            //slide(left);
+            if(left){
+                console.log(art.last());
+                card.animate({marginLeft:0},500,function(){
+                    //콜백함수에서 후처리
+                    card.prepend(art.last());
+                    card.css('marginLeft', '-100%');
+                    if(num == 0){
+                        num +=10;
+                    }else{
+                        num --;
+                    }
+                });
+            }else{
+                console.log(art.first());
+                card.animate({marginLeft:'-200%'},500,function(){
+                    //콜백함수에서 후처리
+                    card.append(art.first());
+                    card.css('marginLeft', '-100%');
+                    if(num == 11){
+                        num -= 10;
+                    }else{
+                        num ++;
+                    }
+                });
+            }
+            pg.children('span').first().text(num+1);
         })
 
         container.on('swipeleft',function(){
-            slide(false);
+            //slide(false);
         })
         container.on('swiperight',function(){
-            slide(true);
+            //slide(true);
         })
 
     </script>

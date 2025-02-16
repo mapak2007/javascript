@@ -124,7 +124,7 @@
         
       }
     </style>
-    <script src="./jquery.js"></script>
+    <!-- <script src="./jquery.js"></script> -->
   </head>
   <body>
     <div class="quiz-container">
@@ -151,29 +151,122 @@
         {question: 'jQuery에서 dom탐색을 할 수있는 함수 표시는?', answer: '$'},
         {question: '콘솔에 출력하는 함수는?', answer: 'console.log'}
       ];
-      let que =  $('.question-item');
-      const ans =  $('.answer-item');
-      const list = $('.quiz-list');
-      let submit = $('.submit-btn');
-      const hint = $('.hint');
-    //   disabled를 가진 que 인 경우엔 active가 추가 되지않도록
-    // 조건문을 넣어보세요! 
-    // hasClass <<클래스명을 가졌는지 확인 가능 한 내장함수(jQuery용)
-      que.click(function(){
-        let state = $(this).hasClass('disabled');
-        if(!state){
-            $(this).toggleClass('active');
-        }
-      });
-      hint.click(function(){
-        let ind = $(this).parent().attr('num-data');
-        let ans = quiz[ind].answer;
-        let inp = $(this).prevAll('.answer-input');
-        inp.attr('placeholder',ans);
+      //document : 전체 html
+      let qList = document.querySelector('.quiz-list');
+      let qCon = document.querySelector('.quiz-container');
+      let btn = document.querySelector('.submit-btn');
+      quiz.forEach(function(e, i){
+        let list = qList.cloneNode(true);
+        let title = list.querySelector('.question-item');
+        let ans = list.querySelector('.answer-input');
+        ans.setAttribute('data-ans',e.answer);
+        title.className += ' disabled';
+        //console.log(ans);
+        title.innerText = `Q${i+1}.${e.question}`;
+        qCon.append(list);
+      })
+      
+      qList.remove();
+      qList = document.querySelectorAll('.quiz-list');
+      // console.log(qList[0]);
+      let fList = qList[0].children[0];
+      fList.classList.remove('disabled');
+      // active라는 클래스가 추가
+      fList.className += ' active';
+      btn = document.querySelectorAll('.submit-btn');
+
+      btn.forEach(function(btn){
+        btn.addEventListener('click', function(){
+          let inpAns = this.previousElementSibling.value;
+          let reAns = this.previousElementSibling.getAttribute('data-ans');
+          let grandpa = this.parentNode.parentNode.nextElementSibling;
+          let nextTitle = grandpa.querySelector('.question-item');
+          //console.log(nextTitle);
+          //inputAns와 reAns를 비교해서
+          //정답이면 지금 버튼의 텍스트를 ✔
+          //오답이면 지금 버튼의 텍스트를 ❌
+          if(inpAns===reAns){
+            this.innerText = '✔';
+            nextTitle.className += ' active';
+            nextTitle.classList.remove('disabled');
+            // 기존 내용을 닫기
+            fList.classList.remove('active');
+            
+          }else{
+            this.innerText = '❌';
+            this.className += ' err';
+          }
+        });
       })
 
+    //   let que =  $('.question-item');
+    //   const ans =  $('.answer-item');
+    //   const list = $('.quiz-list');
+    //   let submit = $('.submit-btn');
+    //   const hint = $('.hint');
+    // //   disabled를 가진 que 인 경우엔 active가 추가 되지않도록
+    // // 조건문을 넣어보세요! 
+    // // hasClass <<클래스명을 가졌는지 확인 가능 한 내장함수(jQuery용)
+    //   que.click(function(){
+    //     let state = $(this).hasClass('disabled');
+    //     if(!state){
+    //         $(this).toggleClass('active');
+    //     }
+    //   });
+    //   hint.click(function(){
+    //     let ind = $(this).parent().attr('num-data');
+    //     let ans = quiz[ind].answer;
+    //     let inp = $(this).prevAll('.answer-input');
+    //     inp.attr('placeholder',ans);
+    //   })
 
-    //   submit.click(function(){
+
+    // //   submit.click(function(){
+    // //     let nowVal = $(this).prev().val();
+    // //     let ind = $(this).parent().attr('num-data');
+    // //     let ans = quiz[ind].answer;
+
+    // //     if(nowVal === ans){
+    // //         // 정답일때, 지금 클릭한 버튼의 텍스트 내용을
+    // //         // ✔로 변경
+    // //         $(this).text('✔');
+    // //         $(this).parent().next().removeClass('disabled');
+    // //         $('.answer-item').removeClass('active');
+    // //         $(this).parent().next().addClass('active');
+    // //     }else{
+    // //         // 오답일때, 지금 클릭한 버튼의 텍스트 내용을
+    // //         // ❌로 변경
+    // //         $(this).text('❌');
+            
+    // //     }
+    // //     console.log(quiz[ind].answer);
+    // //   });
+
+      
+    //   quiz.forEach(function(e,i){
+    //     let qu = que.clone(true);
+    //     let an = ans.clone(true);
+    //     // foreach를 최대한 활용하세요 (e: 배열 자체값, i: 인덱스)
+    //     // Q${i}.${퀴즈질문} 형식으로 텍스트가 들어오도록 세팅해보세요!
+    //      qu.text(`Q${i+1}.${e.question}`);
+    //      qu.addClass('disabled');
+    //      an.attr('num-data',i);
+    //     list.append(qu);
+    //     list.append(an);
+    //   })
+
+
+    // que.remove();
+    // ans.remove();
+    
+    // // 재 세팅
+    // que = $('.question-item');
+    // que.first().removeClass('disabled');
+
+    // submit = $('.submit-btn');
+
+    // // 제출버튼 클릭했을 때 
+    // submit.click(function(){
     //     let nowVal = $(this).prev().val();
     //     let ind = $(this).parent().attr('num-data');
     //     let ans = quiz[ind].answer;
@@ -183,7 +276,7 @@
     //         // ✔로 변경
     //         $(this).text('✔');
     //         $(this).parent().next().removeClass('disabled');
-    //         $('.answer-item').removeClass('active');
+    //         que.removeClass('active');
     //         $(this).parent().next().addClass('active');
     //     }else{
     //         // 오답일때, 지금 클릭한 버튼의 텍스트 내용을
@@ -193,51 +286,6 @@
     //     }
     //     console.log(quiz[ind].answer);
     //   });
-
-      
-      quiz.forEach(function(e,i){
-        let qu = que.clone(true);
-        let an = ans.clone(true);
-        // foreach를 최대한 활용하세요 (e: 배열 자체값, i: 인덱스)
-        // Q${i}.${퀴즈질문} 형식으로 텍스트가 들어오도록 세팅해보세요!
-         qu.text(`Q${i+1}.${e.question}`);
-         qu.addClass('disabled');
-         an.attr('num-data',i);
-        list.append(qu);
-        list.append(an);
-      })
-
-
-    que.remove();
-    ans.remove();
-    
-    // 재 세팅
-    que = $('.question-item');
-    que.first().removeClass('disabled');
-
-    submit = $('.submit-btn');
-
-    // 제출버튼 클릭했을 때 
-    submit.click(function(){
-        let nowVal = $(this).prev().val();
-        let ind = $(this).parent().attr('num-data');
-        let ans = quiz[ind].answer;
-
-        if(nowVal === ans){
-            // 정답일때, 지금 클릭한 버튼의 텍스트 내용을
-            // ✔로 변경
-            $(this).text('✔');
-            $(this).parent().next().removeClass('disabled');
-            que.removeClass('active');
-            $(this).parent().next().addClass('active');
-        }else{
-            // 오답일때, 지금 클릭한 버튼의 텍스트 내용을
-            // ❌로 변경
-            $(this).text('❌');
-            
-        }
-        console.log(quiz[ind].answer);
-      });
 
     </script>
   </body>
