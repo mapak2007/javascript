@@ -127,6 +127,7 @@
         let pg = $('.pg');
         let container = $('.card-container');
         let like = $('.like');
+        let flag = false;
 
         let news = [
             { title: "AI가 의료 산업을 혁신한다", detail: "AI 기술이 의료 산업에서 점점 더 중요한 역할을 하고 있습니다. 최근에는 AI를 활용한 진단 기술이 발전하여 의사들이 질병을 조기에 발견하고 정확한 치료법을 추천하는 데 도움을 주고 있습니다. 특히, 인공지능이 방대한 의료 데이터를 분석하여 최적의 치료 방법을 제시하는 시스템이 개발되면서 의료 서비스의 효율성이 크게 향상되고 있습니다.", img: "./image/slide1.jpg" },
@@ -149,10 +150,13 @@
                 $(this).text('☆');
             }
         })
-        news.forEach(function(e){
+
+
+        news.forEach(function(e, i){
             let art2 = art.clone(true);
             art2.children('h2').text(e.title);
             art2.children('p').text(e.detail);
+            art2.attr('data-idx', i+1);
             art2.children('img').attr('src',e.img);
             card.append(art2);
 
@@ -194,35 +198,41 @@
 
         btns.click(function(){
             let left = $(this).hasClass('prev');
-            let num = 1;
             art = $('article');
+            let now = 0;
             //slide(left);
             if(left){
+                if(!flag){
+                now = $('article').eq(0).attr('data-idx');
+                pg.children('span').first().text(now);
+                flag =true;
+                }
                 console.log(art.last());
                 card.animate({marginLeft:0},500,function(){
                     //콜백함수에서 후처리
                     card.prepend(art.last());
                     card.css('marginLeft', '-100%');
-                    if(num == 0){
-                        num +=10;
-                    }else{
-                        num --;
-                    }
+                    flag = false;
+                    //pg.children('span').first().text(art);
+                    //console.log($('article').eq(1).attr('data-idx'));
                 });
             }else{
+                if(!flag){
+                now = $('article').eq(2).attr('data-idx')
+                pg.children('span').first().text(now);
+                flag = true;
+                }
                 console.log(art.first());
                 card.animate({marginLeft:'-200%'},500,function(){
                     //콜백함수에서 후처리
                     card.append(art.first());
                     card.css('marginLeft', '-100%');
-                    if(num == 11){
-                        num -= 10;
-                    }else{
-                        num ++;
-                    }
+                    flag = false;
+                    // pg.children('span').first().text(art);
+                    // console.log($('article').eq(1).attr('data-idx'));
                 });
             }
-            pg.children('span').first().text(num+1);
+            
         })
 
         container.on('swipeleft',function(){

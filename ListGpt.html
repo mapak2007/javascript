@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>투두리스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .todo-container {
+            background-color: white;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            height: 500px;
+            overflow: scroll;
+        }
+        .todo-container h1 {
+            text-align: center;
+            color: #4a90e2;
+        }
+        .todo-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .todo-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .todo-list li span {
+            flex: 1;
+        }
+        .todo-item input{
+            width:150px;
+            background-color: #fff;
+        }
+        .todo-item input:disabled{
+            border:none;
+            background-color: transparent;
+        }
+
+        .todo-list li button {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .todo-list li button.edit {
+            background-color: #4caf50;
+        }
+        .todo-list li button:hover {
+            opacity: 0.8;
+        }
+        .todo-input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .add-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .add-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="todo-container">
+        <h1>투두리스트</h1>
+        <input type="text" class="todo-input" placeholder="할 일을 입력하세요">
+        <button class="add-btn">추가</button>
+        <ul class="todo-list">
+            <li class="todo-item">
+                <input type="text" value="샘플 할 일" class="addedInp" disabled></input>
+                <button class="edit">수정</button>
+                <button class="delete">삭제</button>
+            </li>
+        </ul>
+    </div>
+    <script>
+        let add = document.querySelector('.add-btn');
+        let inp = document.querySelector('.todo-input');
+        let itm = document.querySelector('.todo-item');
+        let todoList = document.querySelector('.todo-list');
+        let modOrdel=function(state, dom, self){
+            if(state === 'del'){
+                dom.remove();
+            }else{
+                let st = self.innerText;
+                if(self === '확인') {
+                    dom.disabled=true;
+                    self.innerText = '수정';
+                }else{
+                    dom.disabled=false;
+                    self.innerText = '확인';
+                }
+            }
+        }
+        add.addEventListener('click',function(){
+            let val = inp.value;
+            let onoff = val=='';
+            // 클론 된 아이템 기준으로
+            // 할일 입력될 부분을 찾아서
+            // value를 세팅
+            // 할일.innerText
+            if(!(val == '')){
+                let newItem = itm.cloneNode(true);
+                let txt = newItem.querySelector('.addedInp');
+                txt.value = val;
+                todoList.prepend(newItem);
+                inp.value = '';
+                let mod = newItem.querySelector('.edit');
+                let del = newItem.querySelector('.delete');
+                mod.addEventListener('click',function(){
+                    modOrdel('mod', txt, this);
+                    this.innerText = '확인';
+                });
+                del.addEventListener('click',function(){
+                    modOrdel('del', newItem);
+                });
+            }
+        })
+
+        itm.remove();
+    </script>
+</body>
+</html>
