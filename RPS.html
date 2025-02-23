@@ -105,69 +105,86 @@
 
     <div class="result" id="result">
       <!-- 결과가 여기에 표시됨 -->
-        <span>내가 이기고 싶다...</span>
     </div>
+
     <script>
-        let com = ['가위', '바위', '보'];
+        let com = ['가위','바위','보'];
         let ch = parseInt(Math.random()*3);
         let mn = document.querySelector('#computer-image');
+        let cnt = 0;
         let btn = document.querySelectorAll('button');
-        let ro = document.querySelector('.rock');
-        let pa = document.querySelector('.paper');
-        let sc = document.querySelector('.scissors');
-        let re = document.querySelector('.result');
-        let ps = document.querySelector('#player-score');
-        let cs = document.querySelector('#computer-score');
+        let msg = document.querySelector('.result');
         let score = 0; //내스코어
-        let scorec = 0; //컴퓨터 스코어
-        let cnt =0;
-
+        let scoreC = 0; //컴퓨터 스코어 
+        let pl = document.querySelector('#player-score');
+        let cl = document.querySelector('#computer-score');
+        let flag = true;
 
         let imgs = setInterval(function(){
             cnt++;
-            cnt = cnt%3;
+            cnt = cnt % 3;
             mn.setAttribute('src',`./${com[cnt]}.png`);
         },100);
+
         function newGame(){
-            ch = parseInt(Math.random()*3);
-            cnt = 0;
-            imgs = setInterval(function(){
+          ch = parseInt(Math.random()*3);
+          cnt = 0;
+          imgs = setInterval(function(){
             cnt++;
-            cnt = cnt%3;
+            cnt = cnt % 3;
             mn.setAttribute('src',`./${com[cnt]}.png`);
-        },100);
+          },100);
         }
+
         btn.forEach(function(e){
-            e.addEventListener('click', function(){
+            e.addEventListener('click',function(){
                 if(this.id != 'refresh'){
+                  if(flag){
+                    flag = false;
                     clearInterval(imgs);
-                    //console.log(com[ch]);
-                    let me = this.innerText;
+                    let me =  this.innerText;
                     let cu = com[ch];
                     mn.setAttribute('src',`./${cu}.png`);
+
+                    // result  태그에 결과를 입력해주세요!
+                    // 메세지는 자유입니다! 
+
                     if(me === cu){
-                        //alert('비겼습니다.');
-                        re.innerText='비겼다.';
-                    }else{
-                        if((me === '가위' && cu === '보')||(me === '바위' && cu === '가위')||(me === '보' && cu === '바위')){
-                            //alert('내가 이겼다!!!');
-                            re.innerText='내가 이겼다!!!';
-                            score++;
+                        msg.innerText = '비겼습니다';
+                      }else{
+                        if(
+                          (me === '가위' && cu === '보')
+                          ||
+                          (me === '바위' && cu === '가위')
+                          ||
+                          (me === '보' && cu === '바위')
+                        ){
+                          //  내가이김
+                          msg.innerText = '이겼습니다.';
+                          score++;
+                        }else{
+                          // 컴이이김
+                          msg.innerText = '졌습니다!';
+                          scoreC++;
                         }
-                        //alert('컴퓨터가 이겼다.');
-                        re.innerText='컴퓨터가 이겼다.';
-                        scorec++;
+
                     }
-                    ps.innerText=score;
-                    cs.innerText=score;
-                    console.log(me);
+                    pl.innerText=score;
+                    cl.innerText=scoreC;
+                    }
+
+
+                  
                 }else{
-                    clearInterval(imgs);
-                    newGame();
-                    refl
+                  flag = true;
+                  clearInterval(imgs);
+                  newGame();
+                   msg.innerText = '';
                 }
             })
         })
+
+
     </script>
   </body>
 </html>
